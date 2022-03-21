@@ -132,6 +132,10 @@ class LRshift_N():
         output = np.array(temp_list).reshape(1,-1) # it didnt work.
         return output
 
+    def add_DateTime_info_to_prices(self,ouputplot:list(float)):
+        pass 
+
+
     def visual_future_prediction(self):
         model, today, predicted = self.acorr_Close()
         outputplot = list(self.prices)[-100:]
@@ -140,6 +144,7 @@ class LRshift_N():
         Y = []
         daysback = 1
         #What does it do? I forgot.
+        #Here I think adding DateTIme information to Y axis for pyplot. Quite important for visualizing reasons. 
         for i, a in enumerate(outputplot):
             daysback -= 1
             fixedday = date_today - timedelta(days=-daysback)
