@@ -9,7 +9,7 @@ class Baseutils():
     bunch of utills how apparent.
     """
     def __init__(self):
-        self.start = datetime.datetime(2001,1,1)
+        self.start = datetime.datetime(2015,1,1)
         self.end = datetime.datetime.today()
         self.usefulStocks = ["TSLA","NEE", "GM", "SEDG","ENPH", "FSLR","NIO"]
 
