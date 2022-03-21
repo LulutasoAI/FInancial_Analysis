@@ -5,6 +5,10 @@ from Log_Return_Process import Log_Return_Process
 import pandas as pd
 import numpy as np
 
+
+"""
+This one I think is quite high level class. 
+"""
 class Check_Correlation():
     def __init__(self,start_date= "2015-01-01"):
         self.symbol1 = str(input("input symbol1\n"))
