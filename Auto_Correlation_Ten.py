@@ -132,7 +132,7 @@ class LRshift_N():
         output = np.array(temp_list).reshape(1,-1) # it didnt work.
         return output
 
-    def add_DateTime_info_to_prices(self,ouputplot:list(float)):
+    def add_DateTime_info_to_prices(self,ouputplot: list):
         pass 
 
 

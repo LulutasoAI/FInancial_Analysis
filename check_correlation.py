@@ -4,24 +4,63 @@ import utils
 from Log_Return_Process import Log_Return_Process
 import pandas as pd
 import numpy as np
-
-
+from pandas_datareader import data
+from matplotlib import pyplot as plt
+from datetime import date
 """
 This one I think is quite high level class. 
 """
 class Check_Correlation():
-    def __init__(self,start_date= "2015-01-01"):
-        self.symbol1 = str(input("input symbol1\n"))
-        self.symbol2 = str(input("input symbol2\n"))
+    def __init__(self,start_date= "1980-01-01"):
+        #self.symbol1 = str(input("input symbol1\n"))
+        #self.symbol2 = str(input("input symbol2\n"))
+        self.symbol1 = "^GSPC"
+        self.symbol2 = "^N225"
         self.start_date = start_date
         self.Log_Process = Log_Return_Process()
         self.Correlation_analysis = Correlation_Analysis()
 
-    def fetch_prices(self,symbol1 : str, symbol2 : str):
+    def stock_id_to_prices_in_range(self, symbol:str,start_date:str,end_date:str) -> pd.Series:
+        
+        df = data.DataReader(symbol, "yahoo", start_date, end_date)
+        df = df[[ "Open", "High", "Low", "Close", "Volume"]]
+        prices = df["Close"]
+        return prices 
+
+    def fetch_prices_in_range(self, symbol1:str, symbol2:str, start:str, end : str)-> tuple:
+        prices_a = self.stock_id_to_prices_in_range(symbol1, start, end)
+        prices_b = self.stock_id_to_prices_in_range(symbol2, start, end)
+        return prices_a,prices_b
+
+    def fetch_prices(self,symbol1 : str, symbol2 : str) -> tuple:
         prices_a = utils.stock_id_to_prices(symbol1,self.start_date)
         prices_b = utils.stock_id_to_prices(symbol2, self.start_date)
         return prices_a,prices_b
     
+    def test_output_correlation_change_throughout_time(self):
+        today = date.today()
+        end_date = "{}".format(today)
+        symbol1 = "^GSPC"
+        symbol2 = "^N225"
+        start_end1 = ["1980-01-01", "2008-01-01"]
+        start_end2 = ["2008-01-01",end_date]
+        self.output_correlation_change_throughout_time(symbol1,symbol2, start_end1,start_end2)
+        
+
+    def output_correlation_change_throughout_time(self, symbol1 :str, symbol2:str, start_end1:list, start_end2 : list):
+        """
+        start_endn might be like ["1994-01-01", "2008-01-01"]
+        """
+        result : list(float) = [] #[correlation, correlation2]
+        series1_first, series2_first = self.fetch_prices_in_range(symbol1, symbol2, start_end1[0],start_end1[1])
+        series1_last, series2_last = self.fetch_prices_in_range(symbol1, symbol2, start_end2[0],start_end2[1])
+        correlation_first = self.Correlation_analysis.main(series1_first,series2_first) #explicitly name the variable so that it is more readable.
+        correlation_last = self.Correlation_analysis.main(series1_last,series2_last)
+        result = [correlation_first,correlation_last]
+        print(result,"correlation between the range of {} and {}".format(start_end1,start_end2))
+        plt.plot(np.array(result))
+        plt.show()
+
     def check_pure_correlation(self):
         #usually not usable because gold and stocks both go up thanks to continuous inflation.
         """
@@ -68,7 +107,7 @@ class Check_Correlation():
         #print(np.cov(series1,series2)[0][1])
         denominator = np.std(series1) * np.std(series2)
         result = covariance/denominator
-        print(result)
+        print(result,"the correlation between {} and {} since {}".format(self.symbol1, self.symbol2,self.start_date ))
         return result
 
 
@@ -76,7 +115,9 @@ class Check_Correlation():
 
 if __name__ == "__main__":
     checker = Check_Correlation()
-    checker.check_pure_correlation()
+    #checker.check_pure_correlation()
     print("devider")
     #checker.normalized_correlation()
     checker.Correlation_with_formula()
+    #going to test correlationcompare.
+    checker.test_output_correlation_change_throughout_time()

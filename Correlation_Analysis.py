@@ -4,6 +4,9 @@ from matplotlib import pyplot as plt
 
 
 class Correlation_Analysis():
+    """
+    This class contains bunch of utility functions for Check_Correlation.py
+    """
     def __init__(self):
         pass 
 
@@ -45,6 +48,8 @@ class Correlation_Analysis():
         plt.scatter(result1,result2)
         plt.show()
         print(result1,result2)
-        print(np.corrcoef(result1,result2)[0][1])
+        output = np.corrcoef(result1,result2)[0][1]
+        print(output)
+        return output
 
     
