@@ -1,5 +1,5 @@
 import Auto_Correlation_Ten
-import Check_Correlation
+from check_correlation import Check_Correlation
 import Log_Return_Process
 import Multiple_Linear_Regression_Analysis
 import Moving_Average_Related
