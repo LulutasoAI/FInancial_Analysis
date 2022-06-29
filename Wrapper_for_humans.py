@@ -9,7 +9,7 @@ import messages
 class Financial_Analysis():
     def __init__(self) -> None:
         self.process_argument()
-        self.symbol_to_analize = "TSLA" #for testing purposes I put TSLA here.
+        self.symbol_to_analize = "^N225" #for testing purposes I put TSLA here.
 
     def process_argument(self):
         try: 
