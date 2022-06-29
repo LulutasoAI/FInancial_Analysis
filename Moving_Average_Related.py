@@ -48,7 +48,7 @@ class MA(Baseutils):
             mas.append(ma)
             plt.plot(data.index,ma,color = colors[i])
         plt.plot(data.index,prices,color = "black")
-        plt.title("green = {}, yellow = {}, red = {}".format(self.periods[0],self.periods[1],self.periods[2]))
+        plt.title("name = {}, green = {}, yellow = {}, red = {}".format(stkname,self.periods[0],self.periods[1],self.periods[2]))
         plt.show()
         plt.close()
         #self.mashandler(mas,prices,20)

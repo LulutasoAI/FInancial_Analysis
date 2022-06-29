@@ -5,11 +5,22 @@ import Multiple_Linear_Regression_Analysis
 import Moving_Average_Related
 import sys 
 import messages
+from configparser import ConfigParser
 
 class Financial_Analysis():
     def __init__(self) -> None:
         self.process_argument()
+        self.config = ConfigParser()
+        self.config.read("config.ini")
         self.symbol_to_analize = "^N225" #for testing purposes I put TSLA here.
+        self.config_keys = [
+            None, 
+            "auto_Correlation_Analysis",
+            "correlation Analysis",
+            "log_Return_Analysis", 
+            "multiple_Linear_Regression_Analysis", 
+            "moving_Average_Analysis",
+            ]
 
     def process_argument(self):
         try: 
@@ -60,7 +71,8 @@ class Financial_Analysis():
     
     def moving_average_analysis(self):
         ma = Moving_Average_Related.MA()
-        ma.main(self.symbol_to_analize)
+        symbol = self.config[self.config_keys[self.run_mode]]["symbol_to_analyse"]
+        ma.main(symbol)
     
     def main(self):
         if self.run_mode == 1:
